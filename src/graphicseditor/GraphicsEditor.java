@@ -4,14 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
-
-import javax.script.*;
 import javax.swing.*;
 
 public class GraphicsEditor extends JFrame {
-
-    ScriptEngineManager manager = new ScriptEngineManager();
-    ScriptEngine engine = manager.getEngineByName("js");
 
     private static final long serialVersionUID = 1L;
 
@@ -25,13 +20,29 @@ public class GraphicsEditor extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton lineButton = new JButton("Line");
         JButton rectangleButton = new JButton("Rectangle");
-
         JPanel TopPanel = new JPanel();
-        TopPanel.setBackground(Color.WHITE);
-        TopPanel.setLayout(new FlowLayout(5));
+        JPanel leftPanel = new JPanel();
+        JPanel bottomPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
+        TopPanel.setBackground(Color.LIGHT_GRAY);
+        TopPanel.setPreferredSize(new Dimension(400, 100));
         TopPanel.add(lineButton);
         TopPanel.add(rectangleButton);
+
+        leftPanel.setBackground(Color.LIGHT_GRAY);
+        leftPanel.setPreferredSize(new Dimension(100, 400));
+
+        bottomPanel.setBackground(Color.LIGHT_GRAY);
+        bottomPanel.setPreferredSize(new Dimension(800, 100));
+
+        rightPanel.setBackground(Color.LIGHT_GRAY);
+        rightPanel.setPreferredSize(new Dimension(100, 400));
+
         this.add(TopPanel, BorderLayout.NORTH);
+        this.add(leftPanel, BorderLayout.WEST);
+        this.add(bottomPanel, BorderLayout.SOUTH);
+        this.add(rightPanel, BorderLayout.EAST);
+
         this.add(new PaintSurface(), BorderLayout.CENTER);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -88,6 +99,7 @@ public class GraphicsEditor extends JFrame {
         }
 
         public void paint(Graphics g) {
+            getContentPane().setBackground(new Color(255, 255, 255));
             Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke(2));
 

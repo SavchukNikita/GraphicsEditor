@@ -83,7 +83,7 @@ public class GraphicsEditor extends JFrame {
 
                 public void mouseReleased(MouseEvent e) {
                     Shape r = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
-                    Object res = shapes.add(r);
+                    shapes.add(r);
                     startDrag = null;
                     endDrag = null;
                     repaint();

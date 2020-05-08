@@ -44,7 +44,7 @@ public class GraphicsEditor extends JFrame {
             }
         });
 
-        lineButton.addActionListener(new ActionListener() {
+        rectangleButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {

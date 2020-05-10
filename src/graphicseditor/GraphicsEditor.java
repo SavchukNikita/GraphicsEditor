@@ -9,13 +9,14 @@ import javax.swing.*;
 public class GraphicsEditor extends JFrame {
 
     private static final long serialVersionUID = 1L;
+    private String currentAction = "rectangle";
 
     public static void main(String[] args) {
 
         new GraphicsEditor();
     }
 
-    public GraphicsEditor() {
+    public  GraphicsEditor() {
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JButton lineButton = new JButton("Line");
@@ -51,7 +52,7 @@ public class GraphicsEditor extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                currentAction = "line";
             }
         });
 
@@ -59,7 +60,7 @@ public class GraphicsEditor extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                currentAction = "rectangle";
             }
         });
     }
@@ -78,12 +79,20 @@ public class GraphicsEditor extends JFrame {
                 public void mousePressed(MouseEvent e) {
                     startDrag = new Point(e.getX(), e.getY());
                     endDrag = startDrag;
-                    repaint();
                 }
 
                 public void mouseReleased(MouseEvent e) {
-                    Shape r = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
-                    shapes.add(r);
+                    Shape r;
+                    switch (currentAction){
+                        case "rectangle":
+                            r = makeRectangle(startDrag.x, startDrag.y, e.getX(), e.getY());
+                            shapes.add(r);
+                            break;
+                        case "line":
+                            r = makeLine(startDrag.x, startDrag.y, e.getX(), e.getY());
+                            shapes.add(r);
+                            break;
+                    };
                     startDrag = null;
                     endDrag = null;
                     repaint();
@@ -98,6 +107,8 @@ public class GraphicsEditor extends JFrame {
             });
         }
 
+        
+        @Override
         public void paint(Graphics g) {
             getContentPane().setBackground(new Color(255, 255, 255));
             Graphics2D g2 = (Graphics2D) g;
@@ -108,13 +119,27 @@ public class GraphicsEditor extends JFrame {
             }
 
             if (startDrag != null && endDrag != null) {
-                Shape r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
-                g2.draw(r);
+                Shape r;
+                switch (currentAction){
+                    case "rectangle":
+                        r = makeRectangle(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
+                        g2.draw(r);
+                        break;
+                    case "line":
+                        r = makeLine(startDrag.x, startDrag.y, endDrag.x, endDrag.y);
+                        g2.draw(r);
+                        break;
+                }
+                
             }
         }
 
         private Rectangle2D.Float makeRectangle(int x1, int y1, int x2, int y2) {
             return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
+        }
+        
+        private Line2D.Float makeLine(int x1, int y1, int x2, int y2){
+            return new Line2D.Float(x1, y1, x2, y2);
         }
 
     }
